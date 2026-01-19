@@ -1,149 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bulk Buddy | Full Inventory</title>
-    <style>
-        :root { --primary: #2e7d32; --dark: #1b5e20; --bg: #f4f7f6; }
-        body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 0; }
-        header { background: var(--dark); color: white; padding: 30px; text-align: center; }
-        .container { max-width: 1300px; margin: 30px auto; padding: 0 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 100%; }
-        .img-box { width: 100%; height: 220px; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
-        h3 { margin: 0 0 10px 0; font-size: 17px; height: 42px; overflow: hidden; color: #111; }
-        .desc { font-size: 13px; color: #666; height: 38px; overflow: hidden; margin-bottom: 15px; }
-        .prices { background: #f9f9f9; padding: 10px; border-radius: 8px; font-size: 12px; margin-top: auto; }
-        .p-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee; }
-        .p-row:last-child { border: none; }
-        .p-val { font-weight: bold; color: var(--primary); }
-    </style>
-</head>
-<body>
-    <header><h1>Bulk Buddy Wholesale</h1></header>
-    <div class="container"><div class="grid" id="main-grid"></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local Kush Dealer | Premium Cannabis Delivery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <script>
-        const inventory = [
-{
-                name: "Punch Funk (AAAA+ Craft)",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/12/Punch-funk-craft-strain-500x500.jpg",
-                desc: "Elite Craft selection. Complex tropical notes of pineapple and citrus.",
-                variants: [{w: "Ounce", p: "105"}, {w: "1/4 lb", p: "290"}, {w: "1/2 lb", p: "535"}, {w: "Pound", p: "975"}]
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              serif: ['"Playfair Display"', 'serif'],
+              display: ['"Oswald"', 'sans-serif'],
             },
-            {
-                name: "Federal Reserve (AAAA+ Craft)",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/12/Federal-reserve-craft-strain-500x500.jpg",
-                desc: "Deep violet hues and a dank fuel aroma. Designed for high tolerance.",
-                variants: [{w: "Ounce", p: "115"}, {w: "1/4 lb", p: "315"}, {w: "1/2 lb", p: "575"}, {w: "Pound", p: "1050"}]
-            },
-            {
-                name: "Permanent Marker (AAAA+ Craft)",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/12/Permnent-marker-craft-strain-500x500.jpg",
-                desc: "Award-winning Indica phenotype with a unique candy-gas aroma.",
-                variants: [{w: "Ounce", p: "105"}, {w: "1/4 lb", p: "290"}, {w: "1/2 lb", p: "535"}, {w: "Pound", p: "975"}]
-            },
-            {
-                name: "Tuna Kush (AAAA+ Craft)",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/12/Tuna-kush-craft-strain-500x500.jpg",
-                desc: "Extremely potent Indica. Famous for its pungent gas aroma and heavy sedation.",
-                variants: [{w: "Ounce", p: "127"}, {w: "1/4 lb", p: "345"}, {w: "1/2 lb", p: "630"}, {w: "Pound", p: "1150"}]
-            },
-            {
-                name: "94 Octane (AAAA-)",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/11/94-octane-strain-1-500x500.jpg",
-                desc: "High-octane gas profile. Known for intense couch-lock and fuel aroma.",
-                variants: [{w: "Ounce", p: "95"}, {w: "1/4 lb", p: "265"}, {w: "1/2 lb", p: "480"}, {w: "Pound", p: "875"}]
-            },
-            {
-                name: "Afghani Death Bubba",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/12/Afghani-death-bubba-strain-500x500.jpg",
-                desc: "A heavy cross delivering thick earthy smoke and sweet grape hints.",
-                variants: [{w: "Ounce", p: "92"}, {w: "1/4 lb", p: "255"}, {w: "1/2 lb", p: "465"}, {w: "Pound", p: "850"}]
-            },
-            {
-                name: "Khalifa Kush",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2026/01/Khalif-kush-strain-500x500.jpg",
-                desc: "Sharp lemon-pine aroma with a heavy, relaxing body stone.",
-                variants: [{w: "Ounce", p: "90"}, {w: "1/4 lb", p: "245"}, {w: "1/2 lb", p: "455"}, {w: "Pound", p: "825"}]
-            },
-            {
-                name: "Grand Daddy Purple",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2026/01/Grandaddy-purple-strain-500x500.jpg",
-                desc: "Classic grape and berry notes. The ultimate strain for sleep.",
-                variants: [{w: "Ounce", p: "95"}, {w: "1/4 lb", p: "255"}, {w: "1/2 lb", p: "465"}, {w: "Pound", p: "850"}]
-            },{
-                name: "Cereal Milk",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/11/Cereal-milk-strain-500x500.jpg",
-                desc: "Sugary milk and fruity berry notes. Great for mid-day stress relief.",
-                variants: [{w: "Ounce", p: "100"}, {w: "1/4 lb", p: "270"}, {w: "1/2 lb", p: "495"}, {w: "Pound", p: "900"}]
-            },
-            {
-                name: "Alaskan Thunder Fuck",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2026/01/Astro-pink-strain-500x500.jpg",
-                desc: "Legendary cerebral high with a woody, earthy aroma.",
-                variants: [{w: "Ounce", p: "30"}, {w: "1/4 lb", p: "75"}, {w: "1/2 lb", p: "138"}, {w: "Pound", p: "250"}]
-            },
-            {
-                name: "Alien Cookies",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2026/01/Alien-cookies-strain-500x500.jpg",
-                desc: "Balanced Hybrid with a sweet, buttery profile. Perfect for social settings.",
-                variants: [{w: "Ounce", p: "85"}, {w: "1/4 lb", p: "235"}, {w: "1/2 lb", p: "425"}, {w: "Pound", p: "775"}]
-            },
-            {
-                name: "Juicy Jays Blueberry 1 1/4",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/07/Juicy-Jays-Blueberry-rolling-papers-500x500.webp",
-                desc: "Triple-dipped flavor system. 100% rice paper & soy ink.",
-                variants: [{w: "Single", p: "3.00"}, {w: "3-Pack", p: "8.50"}, {w: "Box", p: "13.75"}]
-            },
-            {
-                name: "Juicy Jays Strawberry 1 1/4",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2024/04/Juicy-Jay-Strawberry-fraise-500x500.jpg",
-                desc: "Thin rice paper with a natural strawberry taste and fun prints.",
-                variants: [{w: "Single", p: "3.00"}, {w: "3-Pack", p: "8.50"}, {w: "Box", p: "13.75"}]
-            },
-            {
-                name: "Juicy Jays Candy Cane 1 1/4",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/07/Juicy-jays-candy-cane-rolling-papers-500x500.webp",
-                desc: "Taste the candy cane flavor in every puff. Limited edition.",
-                variants: [{w: "Single", p: "3.00"}, {w: "3-Pack", p: "8.50"}, {w: "Box", p: "13.75"}]
-            },
-            {
-                name: "Melon Puff Hemp Tray",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/02/Melon-trays-purple-500x500.jpg",
-                desc: "100% Biodegradable hemp. Funnel lip for easy cleaning.",
-                variants: [{w: "Standard", p: "18.50"}]
-            },
-            {
-                name: "Melon Puff Metal Tray",
-                img: "https://www.bulkbuddy.co/wp-content/uploads/2025/02/Melon-trays-red-500x500.jpg",
-                desc: "Durable metal with rounded corners. Keeps your workspace clean.",
-                variants: [{w: "Standard", p: "12.50"}]
-            }];
-
-        // RENDER LOGIC: This draws the cards on your screen
-        const grid = document.getElementById('main-grid');
-        inventory.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div class="img-box"><img src="${item.img}"></div>
-                <div class="info">
-                    <h3>${item.name}</h3>
-                    <p class="desc">${item.desc}</p>
-                    <div class="prices">
-                        ${item.variants.map(v => `
-                            <div class="p-row">
-                                <span>${v.w}</span>
-                                <span class="p-val">$${v.p}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>`;
-            grid.appendChild(card);
-        });
+            colors: {
+              primary: 'var(--primary-color)',
+              'primary-dark': 'var(--primary-dark)',
+              'primary-light': 'var(--primary-light)',
+            }
+          }
+        }
+      }
     </script>
+    <style>
+      :root {
+        --primary-color: #059669;
+        --primary-dark: #047857;
+        --primary-light: #D1FAE5;
+      }
+      body {
+        background-color: #FAFAF9;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 18px;
+        color: #000000;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Oswald', sans-serif;
+      }
+      .font-serif {
+        font-family: 'Playfair Display', serif;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
 </body>
 </html>
